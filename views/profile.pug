@@ -1,0 +1,41 @@
+html(lang="en")
+  head
+    title Profile
+    link(rel="stylesheet",href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css")
+    link(rel="stylesheet",href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
+    if (process.env.NODE_ENV === 'development')
+      link(rel="stylesheet", href="/tests/vendor/mocha.css")
+    style.
+      body{ padding-top:10px;  word-wrap:break-word;}
+  body
+    .container
+      .page-header.text-center
+        h1
+          span.fa.fa-anchor Profile page
+        a.btn.btn-default.btn-sm(href="/logout") Logout
+      .jumbotron
+        h2 Hello, #{global.User.name}!
+        h2 Welcome to your Blog
+        .row
+          .col-xs-6
+              p My posts:
+              .list-group
+                each val in myPostsCollection
+                  a.list-group-item(href="/profile/post/" + val.postId + "?userId="+global.User.id) 
+                    h4.list-group-item-heading= val.Title
+          .col-xs-6
+              p Other users' posts:
+              .list-group
+                each val in otherPostsCollection
+                  a.list-group-item(href="/profile/post/" + val.postId + "?userId="+global.User.id) 
+                    h4.list-group-item-heading= val.Title + ' by ' + val.Name
+        p
+          a.btn.btn-primary.btn-lg(href="/profile/newPost") Add new post
+      if (process.env.NODE_ENV === 'development')
+          #mocha.col-sm-12
+  if (process.env.NODE_ENV === 'development')
+    script(src="/tests/vendor/mocha.js")
+    script(src="/tests/vendor/chai.js")
+    script(src="/tests/tests-profile.js")
+    script mocha.run();
+  
